@@ -1,0 +1,78 @@
+.box {
+    --border-angle: 0deg;
+    border-radius: 12px;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: border-angle-rotate 2s infinite linear;
+    border: 0.5rem solid transparent;
+    position: relative;
+
+    &.c {
+        border-radius: 100%;
+        background: radial-gradient(circle, var(--bg) 64%, transparent 60%);
+        img {
+            width: 50%;
+            height: 50%;
+        }
+        &:before,
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            inset: 4px;
+            border-radius: 100%;
+            animation: border-angle-rotate 1.8s infinite linear;
+            z-index: -1;
+        }
+
+        &:before {
+            inset: 0;
+            background: repeating-conic-gradient(
+                    from var(--border-angle),
+                    var(--bg),
+                    var(--bg) 30deg,
+                    #fd9230 calc(360deg / 6)
+                )
+                border-box;
+        }
+
+        /* &:after {
+            background: repeating-conic-gradient(
+                    from calc(var(--border-angle) * -1),
+                    oklch(100% 40% 50deg),
+                    #fd9230 60deg
+                )
+                border-box;
+        } */
+    }
+}
+
+@keyframes border-angle-rotate {
+    from {
+        --border-angle: 0deg;
+    }
+    to {
+        --border-angle: 360deg;
+    }
+}
+
+/** boilerplate **/
+body {
+    --bg: #fff;
+    background: var(--bg);
+    font-size: 32px;
+    display: flex;
+    place-content: center;
+    gap: 8rem;
+    min-height: 100svh;
+    flex-wrap: wrap;
+}
+
+@property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}

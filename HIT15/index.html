@@ -39,6 +39,74 @@
             console.log(`typeof parseFloat('geoff'):`, typeof parseFloat('geoff'));
             const a = 19;
             console.log(a ?? 0);
+            // Function to demonstrate NaN behavior
+            function demonstrateNaN() {
+                console.log('1. Basic NaN behavior:');
+                console.log('   NaN === NaN:', NaN === NaN);
+                console.log('   NaN == NaN:', NaN == NaN);
+                console.log('   Object.is(NaN, NaN):', Object.is(NaN, NaN));
+                console.log('   isNaN(NaN):', isNaN(NaN));
+                console.log('   Number.isNaN(NaN):', Number.isNaN(NaN));
+
+                console.log('\n2. Type of NaN:');
+                console.log('   typeof NaN:', typeof NaN);
+
+                console.log('\n3. Mathematical operations with NaN:');
+                console.log('   NaN + 5:', NaN + 5);
+                console.log('   NaN * 10:', NaN * 10);
+                console.log('   NaN / 2:', NaN / 2);
+
+                console.log('\n4. Comparing NaN with isNaN() vs Number.isNaN():');
+                console.log("   isNaN('hello'):", isNaN('hello'));
+                console.log("   Number.isNaN('hello'):", Number.isNaN('hello'));
+
+                console.log('\n5. NaN in arrays:');
+                const arr = [1, NaN, 3, NaN, 5];
+                console.log('   Original array:', arr);
+                console.log(
+                    '   Filtered array:',
+                    arr.filter((x) => !Number.isNaN(x)),
+                );
+
+                console.log('\n6. Creating NaN:');
+                console.log('   0 / 0:', 0 / 0);
+                console.log('   Math.sqrt(-1):', Math.sqrt(-1));
+                console.log("   parseInt('hello'):", parseInt('hello'));
+            }
+
+            // Function to safely perform mathematical operations
+            function safeOperation(a, b, operation) {
+                if (Number.isNaN(a) || Number.isNaN(b)) {
+                    return NaN;
+                }
+                switch (operation) {
+                    case 'add':
+                        return a + b;
+                    case 'subtract':
+                        return a - b;
+                    case 'multiply':
+                        return a * b;
+                    case 'divide':
+                        return b !== 0 ? a / b : NaN;
+                    default:
+                        return NaN;
+                }
+            }
+
+            // Demonstrate the safe operation function
+            function demonstrateSafeOperation() {
+                console.log('\n7. Safe mathematical operations:');
+                console.log("   safeOperation(5, NaN, 'add'):", safeOperation(5, NaN, 'add'));
+                console.log("   safeOperation(10, 2, 'divide'):", safeOperation(10, 2, 'divide'));
+                console.log("   safeOperation(10, 0, 'divide'):", safeOperation(10, 0, 'divide'));
+            }
+
+            // Run the demonstrations
+            demonstrateNaN();
+            demonstrateSafeOperation();
+
+            const a1 = '19';
+            console.log(~~a1 + a);
         </script>
     </body>
 </html>
