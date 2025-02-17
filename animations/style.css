@@ -1,0 +1,12 @@
+div img {
+    animation: exampLogo linear 10s infinite;
+}
+
+@keyframes exampLogo {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
