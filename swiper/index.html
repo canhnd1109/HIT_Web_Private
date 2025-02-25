@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Swiper - Show 3 Images</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .swiper-container {
+                width: 100%;
+                max-width: 600px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .swiper-wrapper {
+                display: flex;
+                transition: transform 0.5s ease-in-out;
+            }
+
+            .swiper-slide {
+                flex: 0 0 calc(100% / 3);
+                box-sizing: border-box;
+                padding: 5px;
+            }
+
+            .swiper-slide img {
+                width: 100%;
+                height: auto;
+                display: block;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .swiper-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.5);
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                z-index: 10;
+            }
+
+            .prev {
+                left: 10px;
+            }
+
+            .next {
+                right: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="swiper-container">
+            <div class="swiper-wrapper"></div>
+            <button class="swiper-btn prev">‹</button>
+            <button class="swiper-btn next">›</button>
+        </div>
+
+        <script>
+            let images = [
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_1.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_2.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_3.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_4.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_5.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_6.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_7.png?1740322723478',
+                '//bizweb.dktcdn.net/100/534/571/themes/972900/assets/image_cate_8.png?1740322723478',
+            ];
+
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
+
+            function renderSlides() {
+                swiperWrapper.innerHTML = '';
+                images.forEach((image) => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide');
+                    slide.innerHTML = `<img src="${image}" alt="Slide Image">`;
+                    swiperWrapper.appendChild(slide);
+                });
+            }
+
+            function updateSlidePosition() {
+                swiperWrapper.style.transition = 'transform 0.5s ease-in-out';
+                swiperWrapper.style.transform = `translateX(-${100 / 3}%)`;
+
+                setTimeout(() => {
+                    swiperWrapper.style.transition = 'none';
+                    let movedImage = images.shift(); // Lấy ảnh đầu tiên
+                    images.push(movedImage); // Đưa ảnh đầu tiên xuống cuối
+                    renderSlides(); // Re-render danh sách ảnh
+                    swiperWrapper.style.transform = `translateX(0%)`; // Reset vị trí
+                }, 500);
+            }
+
+            function moveNext() {
+                updateSlidePosition();
+            }
+
+            function movePrev() {
+                swiperWrapper.style.transition = 'none';
+                let movedImage = images.pop(); // Lấy ảnh cuối cùng
+                images.unshift(movedImage); // Đưa ảnh cuối lên đầu
+                renderSlides(); // Re-render danh sách ảnh
+                swiperWrapper.style.transform = `translateX(-${100 / 3}%)`; // Set vị trí cũ
+
+                setTimeout(() => {
+                    swiperWrapper.style.transition = 'transform 0.5s ease-in-out';
+                    swiperWrapper.style.transform = `translateX(0%)`;
+                }, 50);
+            }
+
+            renderSlides();
+
+            let autoSlide = setInterval(moveNext, 3000);
+
+            document.querySelector('.prev').addEventListener('click', () => {
+                movePrev();
+                resetAutoSlide();
+            });
+
+            document.querySelector('.next').addEventListener('click', () => {
+                moveNext();
+                resetAutoSlide();
+            });
+
+            function resetAutoSlide() {
+                clearInterval(autoSlide);
+                autoSlide = setInterval(moveNext, 3000);
+            }
+        </script>
+    </body>
+</html>
